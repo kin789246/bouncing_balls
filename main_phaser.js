@@ -3,9 +3,10 @@ var HEIGHT = 480;
 var x = 50;
 var y = 50;
 var r = 30;
-var vx = 10;
-var vy = 10;
+var vx = 5;
+var vy = 5;
 var gfx;
+var gameStart = true;
 var game = new Phaser.Game(WIDTH, HEIGHT, Phaser.AUTO, '',
 { preload: preload, create: create, update: update });
 
@@ -14,6 +15,18 @@ function preload() {
 
 function create() {
   gfx = game.add.graphics();
+  pause_label = game.add.text(game.world.width-60, game.world.height-60,
+     '暫停', { font: '24px Arial', fill: '#0f0' });
+  pause_label.inputEnabled = true;
+  pause_label.events.onInputUp.add( function() {
+    if(gameStart) {
+      gameStart = false;
+      game.paused = true;
+    } else {
+      gameStart = true;
+      game.paused = false;
+    }
+  });
 }
 
 function update() {
